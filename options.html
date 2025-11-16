@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SoftHide Options</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      h2 {
+        margin-bottom: 10px;
+      }
+      .site-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid #ddd;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+      }
+      input[type="text"] {
+        width: 250px;
+        padding: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Per-Site Settings</h2>
+
+    <div>
+      <input id="newDomain" type="text" placeholder="example.com" />
+      <button id="addBtn">Add</button>
+    </div>
+
+    <h3 style="margin-top: 20px">Configured Sites</h3>
+    <div id="siteList"></div>
+
+    <script src="options.js"></script>
+  </body>
+</html>

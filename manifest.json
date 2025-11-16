@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "SoftHide",
+  "version": "1.0",
+  "description": "Shows an overlay when the window is unfocused.",
+  "permissions": ["storage", "tabs"],
+  "action": {
+    "default_title": "Toggle per-site setting",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "icons": {
+    "128": "icon.png"
+  }
+}
