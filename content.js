@@ -9,6 +9,17 @@ document.body.appendChild(overlay);
 let originalTitle = document.title;
 let unfocusedTitle = "🔒 [SoftHided]";
 
+function applyGeneralSettings() {
+  chrome.storage.sync.get(["generalSettings"], (data) => {
+    const generalSettings = data.generalSettings || {
+      blurLabel: "Window not focused",
+      blurAmount: 10,
+    };
+
+    overlay.textContent = generalSettings.blurLabel;
+    overlay.style.backdropFilter = `blur(${generalSettings.blurAmount}px)`;
+  });
+}
 function checkEnabledAndBind() {
   const domain = location.hostname;
 
@@ -47,7 +58,9 @@ function hideOverlay() {
 // Listen to changes from popup
 chrome.storage.onChanged.addListener((changes) => {
   if (changes.enabledSites) checkEnabledAndBind();
+  if (changes.generalSettings) applyGeneralSettings();
 });
 
 // Initial check
 checkEnabledAndBind();
+applyGeneralSettings();

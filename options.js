@@ -1,6 +1,7 @@
 const siteList = document.getElementById("siteList");
 const newDomainInput = document.getElementById("newDomain");
 const addBtn = document.getElementById("addBtn");
+const saveBtn = document.getElementById("saveBtn");
 
 // Load and render list
 function refreshList() {
@@ -43,6 +44,19 @@ function refreshList() {
       siteList.appendChild(row);
     });
   });
+
+  chrome.storage.sync.get(["generalSettings"], (data) => {
+    const generalSettings = data.generalSettings || {
+      blurLabel: "Window not focused",
+      blurAmount: 10,
+    };
+
+    document.getElementsByName("global-blur-label")[0].value =
+      generalSettings.blurLabel;
+    document.getElementsByName("global-blur-amount")[0].value = parseInt(
+      generalSettings.blurAmount
+    );
+  });
 }
 
 // Add new domain manually
@@ -59,6 +73,33 @@ addBtn.addEventListener("click", () => {
     });
   });
 });
+saveBtn.addEventListener("click", () => {
+  const generalSettings = {
+    blurLabel: document.getElementsByName("global-blur-label")[0].value,
+    blurAmount: parseInt(
+      document.getElementsByName("global-blur-amount")[0].value
+    ),
+  };
+  chrome.storage.sync.set({ generalSettings });
+});
+
+let SELECTED_TAB = 1;
+
+function handleTabClick(event) {
+  document.querySelector(".tab.active").classList.remove("active");
+  document.querySelector(".tab-content.visible").classList.remove("visible");
+
+  event.target.classList.add("active");
+  document
+    .querySelector(`.tab-content[aria-label="${event.target.ariaLabel}"]`)
+    .classList.add("visible");
+
+  SELECTED_TAB = event.target.ariaLabel;
+}
+
+document
+  .querySelectorAll(".tab")
+  .forEach((t) => t.addEventListener("click", handleTabClick));
 
 // Initial render
 refreshList();

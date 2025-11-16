@@ -25,19 +25,73 @@
         width: 250px;
         padding: 4px;
       }
+
+      .tabs {
+        display: flex;
+        padding: 0 10px;
+        border-bottom: 1px solid gray;
+      }
+      .tabs > .tab {
+        background-color: #eee;
+        border: 1px solid gray;
+        padding: 5px 10px;
+        position: relative;
+        top: 1px;
+        cursor: pointer;
+      }
+      .tabs > .tab:not(:last-child) {
+        border-right: none;
+      }
+      .tabs > .tab.active {
+        background-color: #fff;
+        border-bottom-color: #fff;
+        cursor: default;
+      }
+
+      .tab-content {
+        visibility: hidden;
+        padding-top: 30px;
+        position: absolute;
+      }
+      .tab-content.visible {
+        visibility: visible;
+      }
+      .tab-content .form-field {
+        margin-bottom: 20px;
+      }
     </style>
   </head>
 
   <body>
-    <h2>Per-Site Settings</h2>
-
-    <div>
-      <input id="newDomain" type="text" placeholder="example.com" />
-      <button id="addBtn">Add</button>
+    <div class="tabs">
+      <div aria-label="1" class="tab active">Per-Site Settings</div>
+      <div aria-label="2" class="tab">General</div>
     </div>
 
-    <h3 style="margin-top: 20px">Configured Sites</h3>
-    <div id="siteList"></div>
+    <div class="tab-content visible" aria-label="1">
+      <div>
+        <input id="newDomain" type="text" placeholder="example.com" />
+        <button id="addBtn">Add</button>
+      </div>
+
+      <h3 style="margin-top: 20px">Configured Sites</h3>
+      <div id="siteList"></div>
+    </div>
+    <div class="tab-content" aria-label="2">
+      <div class="form-field">
+        <label>
+          Global blur label:
+          <input type="text" name="global-blur-label" />
+        </label>
+      </div>
+      <div class="form-field">
+        <label>
+          Global blur amount (px):
+          <input type="text" name="global-blur-amount" />
+        </label>
+      </div>
+      <button id="saveBtn">Save</button>
+    </div>
 
     <script src="options.js"></script>
   </body>
